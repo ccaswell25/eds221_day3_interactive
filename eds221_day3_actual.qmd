@@ -1,0 +1,28 @@
+---
+title: "eds221_day3_interactive"
+format: html
+editor: visual
+---
+
+## Conditional Statements
+
+```{r}
+temperature <- 95
+
+if (temperature > 97) {
+  print("Temperature warning")
+}else 
+  print("No temperature warning")
+```
+
+Create an if else statement for blue whale lengths. Create a variable blue whale which has a value of 40
+
+```{r}
+blue_whale <- 15
+if (blue_whale > 35) { 
+  print("GIANT")
+  } else if (blue_whale <= 20) {
+    print("SMALL")
+  } else (
+      print("MEDIUM"))
+```
