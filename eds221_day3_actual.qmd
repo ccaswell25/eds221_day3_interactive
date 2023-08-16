@@ -26,3 +26,24 @@ if (blue_whale > 35) {
   } else (
       print("MEDIUM"))
 ```
+
+## Switch Statement
+
+```{r}
+housing_type <- "single"
+
+switch(housing_type,
+       "single" = print("400"),
+       "double" = print("750"),
+       "whole" = print("1100"))
+
+#This looks for which one of these statements matches the value of the input value and do whatever is on the right, which in this case is print a value. 
+
+if(housing_type == "whole") {
+  print("400")
+} else if (housing_type == "double"){
+  print("750")
+} else if (housing_type == "single"){
+    print("400")
+    }
+```
