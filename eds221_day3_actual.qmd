@@ -4,6 +4,11 @@ format: html
 editor: visual
 ---
 
+```{r}
+library(palmerpenguins)
+library(tidyverse)
+```
+
 ## Conditional Statements
 
 ```{r}
@@ -79,4 +84,119 @@ for (i in seq_along(height)) {
   print(mean_heights)
 }
 
+```
+
+Create a storage vector with spaces that are represented of the number of columns
+
+```{r}
+mean_mtcars <- vector(mode = "numeric", length = ncol(mtcars))
+```
+
+```{r}
+for (i in seq_along(mtcars)) {
+  mean_val <- mean(mtcars[[i]], na.rm = TRUE)
+  mean_mtcars[i] <- mean_val
+}
+
+# I am saying I'm going to store mean_val where we are taking the mean of the vector of values mtcars in the ith column and remove values that are na
+# Then store all the values in mean_val in the vector mean mt cars that we initially created as empty
+# The double brackets are just going to return a vector from a dataframe
+```
+
+What if I don't want to iterate across all columns? Meaning if a column is numeric, calculate the mean and otherwise ignore that column
+
+In a loop this looks like:
+
+```{r}
+for (i in seq_along(mtcars)) {
+  if (is.numeric(mtcars[[i]])) {
+    mtcars_med <- median(mtcars[[i]], na.rm = TRUE)
+    print(mtcars_med)
+  }
+}
+
+#This is saying "is a column in the penguins dataframe numeric"? if it is true, do this...
+```
+
+Write a for loop with a conditional statement that returns the means of all numeric variables in the penguins dataset.
+
+```{r}
+for (i in seq_along(penguins)) {
+ if (is.numeric(penguins[[i]])) {
+     penguins_mean <- mean(penguins[[i]], na.rm = TRUE)
+     print(penguins_mean)
+     }
+}
+#first line is saying: for all # columns in the penguins dataframe in order to iterate
+#second line is saying: if the columns in each iteration of the dataframe numeric ?
+#third line is saying: calculate the mean of those columns and remove the nas 
+#fourth line is saying: print the means of those columns
+```
+
+## Functional Programming for Easier Iterations
+
+#### How do we automate some of the for loops we've been working on? 
+
+APPLY FUNCTION:
+
+Use apply() to iterate over rows or columns. MARGIN = 1 (rows), MARGIN = 2 (columns)
+
+for the mtcars dataset, i'm going to iterate over all columns and calculate the mean of those. if we wanted to iterate over rows we would use 1 instead of 2:
+
+```{r}
+apply(mtcars, 2 , mean)
+```
+
+```{r}
+apply(mtcars, 2, median)
+```
+
+ACROSS/MUTATE FUNCTION:
+
+dplyr::across() function to apply to a specific selection of columns. use within mutuate() or summarize(). summarize will calculate a summary statistic for each group.
+
+```{r}
+#example:
+penguins %>% 
+  mutate(across(c(species, island), toupper))
+
+#this is saying update/add across the species and island columns to uppercase
+
+```
+
+```{r}
+#Calculate the mean flipper length of penguins by species AND sex (with some other calculations for sd and max)
+penguins %>% 
+  group_by(species, sex) %>% 
+  summarize(mean_flipper_length = mean(flipper_length_mm, na.rm = TRUE), sd_flipper_length = sd(flipper_length_mm, na.rm = TRUE), max_body_mass = max(body_mass_g, na.rm = TRUE))
+```
+
+```{r}
+#Lets combine across and groupby/summarize functions to apply means across all numeric columns instead of manually typing out the specific columns
+penguins %>% 
+  group_by(species, island) %>% 
+  summarize(across(where(is.numeric), mean, na.rm = TRUE))
+```
+
+TAPPLY FUNCTION:
+
+this applies a function by a group (similar to the group_by function)
+
+```{r}
+tapply(penguins_size$flipper_length_mm, penguins_size$species, mean, na.rm = true)
+#this is saying look for the species groups that exist in the penguins dataset, calculate the mean of the flipper length for that species and remove the nas
+```
+
+### Detecting a String Pattern
+
+```{r}
+food <- "i love enchiladas"
+
+if (str_detect(food, "burritos")){
+  print("Yay burritos!")
+} else {
+  print("What about burritos?")
+}
+
+#This allows us to detect words in strings and create conditions if they are found
 ```
