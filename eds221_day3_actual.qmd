@@ -47,3 +47,36 @@ if(housing_type == "whole") {
     print("400")
     }
 ```
+
+### For Loops
+
+```{r}
+height <- c(58, 61, 65, 72, 89, 94)
+
+#We are creating a for loop that is saying for the length of the sequence height, iterate through the height values and do the calculation dividing by 2. Then print those values
+for (i in seq_along(height)) {
+  half_height = height[i] / 2 
+  print(half_height)
+}
+
+#For each value in the height vector, return the sum of the value + the one right after it....
+for (i in seq_along(height)) {
+  sum_height = height[i] + height[i + 1]
+  print(sum_height)
+}
+
+#If we want to not have an "NA" for the last value we can modify:
+for (i in seq(1:(length(height) - 1))) {
+  sum_height = height[i] + height[i + 1]
+  print(sum_height)
+}
+
+#Write a for loop that calculates the value of height for each element divided by the mean of the entire height vector 
+
+mean_height <- mean(height)
+for (i in seq_along(height)) {
+  mean_heights = height[i] / mean_height
+  print(mean_heights)
+}
+
+```
